@@ -53,7 +53,7 @@ class _ResultScreenState extends State<ResultScreen> {
           SizedBox(
             height: 100.0,
           ),
-          FlatButton(
+          TextButton(
             onPressed: () {
               Navigator.push(
                   context,
@@ -61,9 +61,9 @@ class _ResultScreenState extends State<ResultScreen> {
                     builder: (context) => MainMenu(),
                   ));
             },
-            shape: StadiumBorder(),
-            color: AppColor.secondaryColor,
-            padding: EdgeInsets.all(18.0),
+            // shape: new StadiumBorder(),
+            // foregroundColor: AppColor.secondaryColor,
+            // Padding: const EdgeInsets.all(16.0),
             child: Text(
               "Reapeat the quizz",
               style: TextStyle(color: Colors.white),

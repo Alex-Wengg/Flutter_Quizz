@@ -108,6 +108,23 @@ class _QuizzScreenState extends State<QuizzScreen> {
                                   btnPressed = true;
                                   answered = true;
                                 });
+                                //   onPressed: () {
+                                if (_controller!.page?.toInt() ==
+                                    questions.length - 1) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ResultScreen(score)));
+                                } else {
+                                  _controller!.nextPage(
+                                      duration: Duration(milliseconds: 250),
+                                      curve: Curves.easeInExpo);
+
+                                  setState(() {
+                                    btnPressed = false;
+                                  });
+                                }
                               }
                             : null,
                         child: Text(questions[index].answers!.keys.toList()[i],
@@ -120,32 +137,32 @@ class _QuizzScreenState extends State<QuizzScreen> {
                   SizedBox(
                     height: 40.0,
                   ),
-                  RawMaterialButton(
-                    onPressed: () {
-                      if (_controller!.page?.toInt() == questions.length - 1) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ResultScreen(score)));
-                      } else {
-                        _controller!.nextPage(
-                            duration: Duration(milliseconds: 250),
-                            curve: Curves.easeInExpo);
+                  // RawMaterialButton(
+                  //   onPressed: () {
+                  //     if (_controller!.page?.toInt() == questions.length - 1) {
+                  //       Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //               builder: (context) => ResultScreen(score)));
+                  //     } else {
+                  //       _controller!.nextPage(
+                  //           duration: Duration(milliseconds: 250),
+                  //           curve: Curves.easeInExpo);
 
-                        setState(() {
-                          btnPressed = false;
-                        });
-                      }
-                    },
-                    shape: StadiumBorder(),
-                    fillColor: Colors.blue,
-                    padding: EdgeInsets.all(18.0),
-                    elevation: 0.0,
-                    child: Text(
-                      btnText,
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )
+                  //       setState(() {
+                  //         btnPressed = false;
+                  //       });
+                  //     }
+                  //   },
+                  //   shape: StadiumBorder(),
+                  //   fillColor: Colors.blue,
+                  //   padding: EdgeInsets.all(18.0),
+                  //   elevation: 0.0,
+                  //   child: Text(
+                  //     btnText,
+                  //     style: TextStyle(color: Colors.white),
+                  //   ),
+                  // )
                 ],
               );
             },
