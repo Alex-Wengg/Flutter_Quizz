@@ -2,7 +2,7 @@ package com.example.quizz_app
 
 // import com.example.model.Question
 
-object setData {
+object setDataJson {
 
     const val name:String="name"
     const val score:String="score"

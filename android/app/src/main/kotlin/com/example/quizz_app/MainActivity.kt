@@ -8,6 +8,7 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import android.util.Log
 import android.content.Context
+import com.google.gson.Gson
 
 
 class MainActivity: FlutterActivity() {
@@ -21,12 +22,12 @@ class MainActivity: FlutterActivity() {
           val rand = Random.nextInt(100)
           result.success(rand)
         } else if (call.method == "test") {
-          var questionList:List<Question>  = listOf<Question>()
+          val questionList = Gson().toJson(setData.getQuestions())
 
-          questionList=setData.getQuestions()
-          Log.d("TAG", "message");
+          // questionList=setData.getQuestions()
+          Log.d("TAG", "today's message message");
 
-          Log.d("TAG",  (questionList.size).toString());
+          Log.d("TAG",  questionList);
 
           result.success(questionList)
         }else {

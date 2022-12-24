@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:quizz_app/model/question_model.dart';
+import 'dart:convert';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -9,7 +10,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<Object?> questions = [];
+  String receivedJson = "";
+  List<dynamic> questions = [];
   int question_pos = 0;
   int score = 0;
   bool btnPressed = false;
@@ -20,11 +22,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> _generateRandomNumber() async {
     List<Object?> getQuestions;
 
-    getQuestions = await platform.invokeMethod('test');
-    print("testing getquestions " + (getQuestions.length).toString());
+    receivedJson = await platform.invokeMethod('test');
     setState(() {
-      questions = getQuestions.cast<QuestionModel>();
-      ;
+      questions = json.decode(receivedJson);
+
       print("testing setstate " + (questions.length).toString());
     });
   }
@@ -45,8 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(children: <Widget>[
           Container(
             padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-            child:
-                Text("Welcome to Javatpoint" + (questions.length).toString()),
+            child: Text("Welcome to Javatpoint" + (questions).toString()),
           ),
         ])));
   }
