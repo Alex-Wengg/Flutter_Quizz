@@ -1,5 +1,7 @@
 import 'package:quizz_app/model/question_model.dart';
 
+//export kt to here but first set up the kt backend to enable this
+
 List<QuestionModel> questions = [
   QuestionModel(
     "How Many Whiskers does the average cat have on each side of its face ?",

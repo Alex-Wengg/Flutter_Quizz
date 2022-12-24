@@ -1,4 +1,4 @@
-package com.example.question
+package com.example.quizz_app
 
 import androidx.annotation.NonNull
 import io.flutter.embedding.engine.plugins.FlutterPlugin;

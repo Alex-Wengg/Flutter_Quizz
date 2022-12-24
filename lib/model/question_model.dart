@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 
 class QuestionModel {
-  String? question;
-  Map<String, bool>? answers;
+  String question;
+  Map<String, bool> answers;
   QuestionModel(this.question, this.answers);
 
   // a MethodChannel instance _channel with channel name question

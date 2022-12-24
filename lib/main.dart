@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 
 import 'package:quizz_app/screens/main_menu.dart';
 
-import 'package:quizz_app/screens/kotlin_backend.dart';
+// import 'package:quizz_app/screens/getRandom.dart';
+import 'package:quizz_app/screens/getTest.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,10 +16,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: const MyHomePage(title: 'Flutter Demo Home Page'),
-        routes: {
-          '/second': (context) =>
-              const MyHomePage(title: 'Flutter Demo Home Page')
-        });
+        //  home: const MainMenu(),
+        home: const MyHomePage(),
+        routes: {'/second': (context) => const MyHomePage()});
   }
 }
