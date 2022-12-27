@@ -34,40 +34,49 @@ class _MainMenuState extends State<MainMenu> {
                 ),
               ),
             ),
-            Expanded(
-              child: Center(
-                child: RawMaterialButton(
-                  onPressed: () {
-                    //Navigating the the Quizz Screen
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => QuizzScreen(),
-                        ));
-                  },
-                  shape: const StadiumBorder(),
-                  fillColor: AppColor.secondaryColor,
-                  child: const Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
-                    child: Text(
-                      "Start the Quizz",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 26.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+            RawMaterialButton(
+              onPressed: () {
+                //Navigating the the Quizz Screen
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => QuizzScreen(),
+                    ));
+              },
+              shape: const StadiumBorder(),
+              fillColor: AppColor.secondaryColor,
+              child: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+                child: Text(
+                  "Start the Quizz 1",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 26.0,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ),
-            const Center(
-              child: Text(
-                "Made with ❤ by Mouheb Boucherb",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
+            RawMaterialButton(
+              onPressed: () {
+                //Navigating the the Quizz Screen
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => QuizzScreen(),
+                    ));
+              },
+              shape: const StadiumBorder(),
+              fillColor: AppColor.secondaryColor,
+              child: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+                child: Text(
+                  "Start the Quizz 2",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 26.0,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),

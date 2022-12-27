@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:quizz_app/data/questions_example.dart';
+import 'package:flutter/services.dart';
+// import 'package:quizz_app/data/questions_example.dart';
 import 'package:quizz_app/screens/result_screen.dart';
 import 'package:quizz_app/ui/shared/color.dart';
 import 'package:quizz_app/widgets/quizz_widget.dart';
 import 'package:quizz_app/model/question_model.dart';
+import 'dart:convert';
 
 class QuizzScreen extends StatefulWidget {
   const QuizzScreen({Key? key}) : super(key: key);
@@ -19,11 +21,27 @@ class _QuizzScreenState extends State<QuizzScreen> {
   PageController? _controller;
   String btnText = "Next Question";
   bool answered = false;
+  String receivedJson = "";
+  List<dynamic> questions = [];
+
+  static const platform = MethodChannel('example.com/channel');
+  Future<void> _generateRandomNumber() async {
+    List<Object?> getQuestions;
+
+    receivedJson = await platform.invokeMethod('test');
+    setState(() {
+      questions = json.decode(receivedJson);
+
+      print("testing setstate " + (questions.length).toString());
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _controller = PageController(initialPage: 0);
+    _generateRandomNumber();
   }
 
   @override
@@ -71,14 +89,14 @@ class _QuizzScreenState extends State<QuizzScreen> {
                     width: double.infinity,
                     height: 200.0,
                     child: Text(
-                      "${questions[index].question}",
+                      "${questions[index]['question']}",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 22.0,
                       ),
                     ),
                   ),
-                  for (int i = 0; i < questions[index].answers!.length; i++)
+                  for (int i = 0; i < questions[index]['answers']!.length; i++)
                     Container(
                       width: double.infinity,
                       height: 50.0,
@@ -89,14 +107,13 @@ class _QuizzScreenState extends State<QuizzScreen> {
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         fillColor: btnPressed
-                            ? questions[index].answers!.values.toList()[i]
+                            ? questions[index]['answers']!.values.toList()[i]
                                 ? Colors.green
                                 : Colors.red
                             : AppColor.secondaryColor,
                         onPressed: !answered
                             ? () {
-                                if (questions[index]
-                                    .answers!
+                                if (questions[index]['answers']!
                                     .values
                                     .toList()[i]) {
                                   score++;
@@ -127,11 +144,12 @@ class _QuizzScreenState extends State<QuizzScreen> {
                                 }
                               }
                             : null,
-                        child: Text(questions[index].answers!.keys.toList()[i],
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.0,
-                            )),
+                        child:
+                            Text(questions[index]['answers']!.keys.toList()[i],
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18.0,
+                                )),
                       ),
                     ),
                   SizedBox(
