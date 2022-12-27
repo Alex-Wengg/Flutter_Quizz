@@ -14,6 +14,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
 	// below is the method for creating a database by a sqlite query
 	override fun onCreate(db: SQLiteDatabase) {
+		//merge question and choice classes to one 
 		   	   val  questiondbHandler = QuestionTable(this, null);
     	   val  choicedbHandler = ChoiceTable(this, null);
 		// below is a sqlite query, where column names
@@ -30,7 +31,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 	}
 
 	// This method is for adding data in our database
-	fun addQuestion(name : String, age : String ){
+	fun addQuestion(name : String, age : String ){ 
 
 		// below we are creating
 		// a content values variable
