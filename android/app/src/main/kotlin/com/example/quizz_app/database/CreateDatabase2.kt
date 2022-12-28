@@ -1,70 +1,58 @@
-package com.example.quizz_app
+package com.example.quizz_app;
 
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.database.Cursor;
+import android.util.Log
 
 
-public class PostsDatabaseHelper extends SQLiteOpenHelper {
+ class PostsDatabaseHelper(context: Context) :
+    SQLiteOpenHelper(context,   DATABASE_NAME, null, DATABASE_VERSION) {
     // Database Info
-    private val  String DATABASE_NAME = "quiz_database";
-    private val  int DATABASE_VERSION = 1;
-
+        companion object {  
+    private val DATABASE_NAME: String = "quiz_database";
+    private val DATABASE_VERSION: Int = 1;
+        }
     // Table Names
-    private val  String TABLE_QUESTIONS = "questions";
-    private static final String TABLE_CHOICES = "choices";
-    private static final String TABLE_USERS = "users";
+    
+    private val TABLE_QUESTIONS: String = "questions";
+    private val TABLE_CHOICES: String = "choices";
+    private val TABLE_USERS: String = "users";
 
     // Questions Table Columns
-    private static final String QUESTION_ID = "id";
-    private static final String QUESTION_TEXT = "text";
-    private static final String QUESTION_TITLE = "title";
+    private val QUESTION_ID: String = "id";
+    private val QUESTION_TEXT: String = "text";
+    private val QUESTION_TITLE: String = "title";
 
     // Choice Table Columns
-    private static final String CHOICE_ID = "id";
-    private static final String CHOICE_TEXT = "text";
-    private static final String CHOICE_ANSWER = "answer";
-    private static final String QUESTION_ID_FK = "questionId";
+    private val CHOICE_ID: String = "id";
+    private val CHOICE_TEXT: String = "text";
+    private val CHOICE_ANSWER: String = "answer";
+    private val QUESTION_ID_FK: String = "questionId";
 
-    private static PostsDatabaseHelper sInstance;
 
-    public static synchronized PostsDatabaseHelper getInstance(Context context) {
-        // Use the application context to keep Activity's context safe.
-        if (sInstance == null) {
-            sInstance = new PostsDatabaseHelper(context.getApplicationContext());
-        }
-        return sInstance;
-    }
-
-    
-    // Constructor should be private to prevent direct instantiation.
-    // Make a call to the static method "getInstance()"
-    private PostsDatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
-    
     // Called when the database connection is being configured.
     // Configure database settings for things like foreign key support, write-ahead logging, etc.
     @Override
-    public void onConfigure(SQLiteDatabase db) {
+    override fun onConfigure(db: SQLiteDatabase ) {
         super.onConfigure(db);
         db.setForeignKeyConstraintsEnabled(true);
     }
 
     // Called when the database is created for the FIRST time else not called
     @Override
-    public void onCreate(SQLiteDatabase db) {
-        String CREATE_QUESTIONS_TABLE = "CREATE TABLE " + TABLE_QUESTIONS +
+    override fun onCreate(db: SQLiteDatabase ) {
+
+        var  CREATE_QUESTIONS_TABLE: String = "CREATE TABLE " + TABLE_QUESTIONS +
                 " (" +
                     QUESTION_ID + " INTEGER PRIMARY KEY, " + // Define a primary key
-                    QESTION_TEXT + " TEXT NOT NULL, " ,
-                    QESTION_TITLE + " TEXT NOT NULL, " +
-                ")";
+                    QUESTION_TEXT + " TEXT NOT NULL, " +
+                    QUESTION_TITLE + " TEXT NOT NULL, " +
+                ") ";
 
-        String CREATE_CHOICE_TABLE = "CREATE TABLE " + TABLE_CHOICES +
+        var  CREATE_CHOICE_TABLE: String = "CREATE TABLE " + TABLE_CHOICES +
                 " (" +
                     CHOICE_ID + " INTEGER PRIMARY KEY, " +
                     CHOICE_TEXT + " TEXT NOT NULL, " +
@@ -72,14 +60,14 @@ public class PostsDatabaseHelper extends SQLiteOpenHelper {
                     "FOREIGN KEY (" + QUESTION_ID_FK + ") INTEGER REFERENCE " + TABLE_QUESTIONS + " (" + QUESTION_ID + " )" // Define a foreign key
                 " )";
 
-        db.execSQL(CREATE_QUESTIONS_TABLE);
-        db.execSQL(CREATE_CHOICES_TABLE);
+        db.execSQL(TABLE_QUESTIONS);
+        db.execSQL(TABLE_CHOICES);
     }
     
     // Called when the database needs to be upgraded.
     //  if a database NAME exists but DATABASE_VERSION != database that exists on disk.
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    override fun onUpgrade(db: SQLiteDatabase , oldVersion: Int, newVersion: Int ) {
         if (oldVersion != newVersion) {
             // Simplest implementation is to drop all old tables and recreate them
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_QUESTIONS);
@@ -89,21 +77,21 @@ public class PostsDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Insert a post into the database
-    public void addPost(Question question) {
+    fun addPost(question: Question ){
         // Create and/or open the database for writing
-        SQLiteDatabase db = getWritableDatabase();
+        var db: SQLiteDatabase = getWritableDatabase();
 
         // It's a good idea to wrap our insert in a transaction. This helps with performance and ensures
         // consistency of the database.
         db.beginTransaction();
         try {
 
-            ContentValues questionData = new ContentValues();
+            var questionData: ContentValues = ContentValues();
             questionData.put(QUESTION_TITLE, question.title);
             questionData.put(QUESTION_TEXT, question.text);
-            long questionid = db.insertOrThrow(TABLE_QUESTIONS, null, questionData);
+            var questionid: Long  = db.insertOrThrow(TABLE_QUESTIONS, null, questionData);
 
-            ContentValues choiceData = new ContentValues();
+            var choiceData: ContentValues =  ContentValues();
             for ((key, value) in question.choices) {
               questionData.put(CHOICE_TEXT, key);
               questionData.put(CHOICE_ANSWER, value);
@@ -111,48 +99,53 @@ public class PostsDatabaseHelper extends SQLiteOpenHelper {
               db.insertOrThrow(TABLE_CHOICES, null, choiceData);
             }
             db.setTransactionSuccessful();
-        } catch (Exception e) {
-            Log.d(TAG, "Error while trying to add post to database");
+        } catch (e: Exception) {
+            Log.d("TAG", "Error while trying to add post to database");
         } finally {
             db.endTransaction();
         }
+        return ;
     }
 
     // Get all posts in the database
-    public List<Post> getAllPosts() {
-        List<Question> questions = new ArrayList<>();
-        SQLiteDatabase db = getReadableDatabase();
+    fun getAllPosts(): ArrayList<Question> {
+        var questions: ArrayList<Question> = ArrayList<Question>();
+        var db: SQLiteDatabase = getReadableDatabase();
  
-        String GET_QUESTIONS =
+        var GET_QUESTIONS: String =
                 String.format("SELECT * FROM %s",
                         TABLE_QUESTIONS);
-        Cursor questionCursor = db.rawQuery(GET_QUESTIONS, null);
+        var questionCursor: Cursor = db.rawQuery(GET_QUESTIONS, null);
+        var title: String;
+        var text: String;
+        var questionId: String;
+        var hashMap: HashMap<String, Boolean>;
         try {
             if (questionCursor.moveToFirst()) {
                 do {
-                    Question currQuestion = new Question();
-                    currQuestion.title = questionCursor.getString(questionCursor.getColumnIndex(QUESTION_TITLE));
-                    currQuestion.text = questionCursor.getString(questionCursor.getColumnIndex(QUESTION_TEXT));
-                    String questionId = questionCursor.getString(questionCursor.getColumnIndex(QUESTION_ID))
+                    title = questionCursor.getString(questionCursor.getColumnIndex(QUESTION_TITLE));
+                    text = questionCursor.getString(questionCursor.getColumnIndex(QUESTION_TEXT));
+                    questionId = questionCursor.getString(questionCursor.getColumnIndex(QUESTION_ID))
                     
                     // make this a function later
-                    String GET_CHOICES =
+                    var GET_CHOICES: String =
                                 String.format("SELECT * FROM %s WHERE %s.%s = ",
                                         TABLE_CHOICES, TABLE_CHOICES, QUESTION_ID_FK, questionId);
-                    Cursor choiceCursor = db.rawQuery(GET_QUESTIONS, null);
+                    var choiceCursor: Cursor = db.rawQuery(GET_QUESTIONS, null);
+                    hashMap = HashMap<String, Boolean> ();
                     if (choiceCursor.moveToFirst()) {
                         do {
-                          String choiceText = choiceCursor.getString(choiceCursor.getColumnIndex(CHOICE_TEXT));
-                          Boolean choiceAnswer = choiceCursor.getString(choiceCursor.getColumnIndex(CHOICE_ANSWER));
-                          currQuestion.choice.put(choiceText, choiceAnswer)
+                          var choiceText: String = choiceCursor.getString(choiceCursor.getColumnIndex(CHOICE_TEXT));
+                          var choiceAnswer: Boolean = choiceCursor.getInt(choiceCursor.getColumnIndex(CHOICE_ANSWER)) == 1;
+                          hashMap.put(choiceText, choiceAnswer)
                         } while(choiceCursor.moveToNext());
                     }
 
-                    questions.add(currQuestion);
+                    questions.add(Question(title, text, hashMap));
                 } while(questionCursor.moveToNext());
             }
-        } catch (Exception e) {
-            Log.d(TAG, "Error while trying to get posts from database");
+        } catch (e: Exception) {
+            Log.d("TAG", "Error while trying to get posts from database");
         } finally {
             if (questionCursor != null && !questionCursor.isClosed()) {
                 questionCursor.close();
@@ -162,16 +155,18 @@ public class PostsDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Delete all database
-    public void purgeAll() {
-        SQLiteDatabase db = getWritableDatabase();
+    fun purgeAll(){
+        var db: SQLiteDatabase  = getWritableDatabase();
         db.beginTransaction();
         try {
             // Order of deletions is important when foreign key relationships exist.
-            db.delete(TABLE_POSTS, null, null);
+            db.delete(TABLE_QUESTIONS, null, null);
+            db.delete(TABLE_CHOICES, null, null);
+
             db.delete(TABLE_USERS, null, null);
             db.setTransactionSuccessful();
-        } catch (Exception e) {
-            Log.d(TAG, "Error while trying to delete all posts and users");
+        } catch (e: Exception) {
+            Log.d("TAG", "Error while trying to delete all posts and users");
         } finally {
             db.endTransaction();
         }

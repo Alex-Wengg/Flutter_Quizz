@@ -19,7 +19,7 @@ object setData {
         val questionsList = ArrayList<Question>()
 
         // // 1
-        val que1 = Question(
+        val que1 = Question("",
           "How Many Whiskers does the average cat have on each side of its face ?",
           hashMapOf("1" to false, 
                     "3" to false, 
@@ -29,7 +29,7 @@ object setData {
         questionsList.add(que1)
 
         // 2
-        val que2 = Question(
+        val que2 = Question("",
           "When does a cat purr ?",
           hashMapOf(
             "When it cares for its kittens" to false,
@@ -42,7 +42,7 @@ object setData {
         questionsList.add(que2)
 
         // 3
-        val que3 = Question(
+        val que3 = Question("",
           "What is the averge nulber of kittens in a litter ?",
           hashMapOf(
             "1 to 2" to false,
@@ -55,7 +55,7 @@ object setData {
         questionsList.add(que3)
 
         // 4
-        val que4 = Question(
+        val que4 = Question("",
             "How many moons does Mars have ?",
             hashMapOf(
               "1" to false,
@@ -68,7 +68,7 @@ object setData {
         questionsList.add(que4)
 
         // 5
-        val que5 = Question(
+        val que5 = Question("",
           "What is Mars's nickname ?",
           hashMapOf(
             "The red planet" to true,
@@ -81,7 +81,7 @@ object setData {
         questionsList.add(que5)
 
           // 6
-        val que6 = Question(
+        val que6 = Question("",
           "About How long would it take to travel to Mars ?",
           hashMapOf(
             "Three days" to false,
@@ -94,7 +94,7 @@ object setData {
         questionsList.add(que6)
 
         // 7
-        val que7 = Question(
+        val que7 = Question("",
           "Mars is Named after the Roman god Mars. What is he the god of ?",
           hashMapOf(
             "War" to true,
@@ -107,7 +107,7 @@ object setData {
         questionsList.add(que7)
 
         // 8
-        val que8 = Question(
+        val que8 = Question("",
           "Mars Is the ___ planet from the sun ?",
           hashMapOf(
             "Fourth" to true,
@@ -120,7 +120,7 @@ object setData {
         questionsList.add(que8)
 
         // 9
-        val que9 = Question(
+        val que9 = Question("",
           "Where did Orville and Wilbur Wright build their first flying airplane ?",
           hashMapOf(
             "United States" to false,
@@ -133,7 +133,7 @@ object setData {
         questionsList.add(que9)
 
         //10
-        val que10 = Question(
+        val que10 = Question("",
       "The First astronuts to travel to space came from which country ?",
           hashMapOf(
             "Kitty Hawk, North Carolina" to true,
